@@ -21,7 +21,16 @@ namespace Bit.Core.OrganizationFeatures.OrganizationSponsorships.FamiliesForEnte
                 throw new BadRequestException("You are not currently sponsoring an organization.");
             }
 
-            await CancelSponsorshipAsync(sponsorship);
+            if (sponsorship.LastSyncDate != null)
+            {
+                await _organizationSponsorshipRepository.DeleteAsync(sponsorship);
+            }
+            else 
+            {
+                // sponsorship.ToDelete = true; 
+            }
+
+            // await CancelSponsorshipAsync(sponsorship);
         }
     }
 }
